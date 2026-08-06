@@ -1,0 +1,331 @@
+/* ==========================================================================
+   John Bruner — resume stylesheet
+   Layout is CSS Grid + Flexbox only. No floats, no inline styles.
+   Colour pairs below are chosen to clear WCAG 2.1 AA (4.5:1 body text).
+   ========================================================================== */
+
+:root {
+  --ink: #1f2933; /* 14.0:1 on white  */
+  --ink-muted: #52606d; /*  7.3:1 on white  */
+  --accent: #0b5d8a; /*  6.5:1 on white  */
+  --rule: #d9e2ec;
+  --page: #f5f7fa;
+  --card: #ffffff;
+
+  --space: 1rem;
+  --measure: 68ch;
+  --radius: 8px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: clamp(1rem, 4vw, 3rem);
+  background-color: var(--page);
+  color: var(--ink);
+  font-family: "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Arial,
+    sans-serif;
+  /* Fluid but bounded: never below 16px, never above ~19px. */
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.1875rem);
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   Skip link — visually hidden until it receives keyboard focus.
+   -------------------------------------------------------------------------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  padding: 0.75rem 1rem;
+  background-color: var(--accent);
+  color: #ffffff;
+  border-radius: 0 0 var(--radius) 0;
+  z-index: 10;
+}
+
+.skip-link:focus {
+  left: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Typographic scale
+   -------------------------------------------------------------------------- */
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 1.5rem + 2.2vw, 3rem);
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  font-size: clamp(1.25rem, 1.1rem + 0.7vw, 1.5rem);
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--rule);
+  margin-bottom: var(--space);
+}
+
+h3 {
+  font-size: 1.125rem;
+}
+
+p {
+  margin: 0 0 0.75rem;
+  max-width: var(--measure);
+}
+
+a {
+  color: var(--accent);
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+/* A visible focus ring on every interactive element is an AA requirement. */
+a:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* --------------------------------------------------------------------------
+   Header
+   -------------------------------------------------------------------------- */
+.resume-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 72rem;
+  margin: 0 auto var(--space);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background-color: var(--card);
+  border-radius: var(--radius) var(--radius) 0 0;
+  border-bottom: 4px solid var(--accent);
+}
+
+.role {
+  margin: 0;
+  font-size: 1.125rem;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.resume-header address {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin-top: 0.5rem;
+  font-style: normal; /* <address> italicises by default */
+  color: var(--ink-muted);
+}
+
+.resume-header address p {
+  margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   Section navigation
+   -------------------------------------------------------------------------- */
+nav {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0.75rem clamp(1.25rem, 3vw, 2rem);
+  background-color: var(--card);
+  border-bottom: 1px solid var(--rule);
+}
+
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* --------------------------------------------------------------------------
+   Main grid: content column + skills sidebar
+   -------------------------------------------------------------------------- */
+main {
+  display: grid;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  background-color: var(--card);
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+@media (min-width: 52rem) {
+  main {
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    align-items: start;
+  }
+
+  #objective,
+  #experience,
+  #education,
+  #references {
+    grid-column: 1;
+  }
+
+  /* Sidebar occupies the second column alongside all four content blocks. */
+  #skills {
+    grid-column: 2;
+    grid-row: 1 / span 4;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Experience & education entries
+   -------------------------------------------------------------------------- */
+article {
+  padding-bottom: 1.25rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+article:last-of-type {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.employer {
+  margin: 0.15rem 0 0;
+  font-weight: 600;
+  color: var(--ink-muted);
+}
+
+.dates {
+  margin: 0 0 0.6rem;
+  font-size: 0.9375rem;
+  color: var(--ink-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+article ul {
+  margin: 0;
+  padding-left: 1.2rem;
+  max-width: var(--measure);
+}
+
+article li {
+  margin-bottom: 0.35rem;
+}
+
+/* --------------------------------------------------------------------------
+   Skills sidebar
+   -------------------------------------------------------------------------- */
+#skills {
+  padding: 1.25rem;
+  background-color: var(--page);
+  border-radius: var(--radius);
+}
+
+#skills dl {
+  margin: 0 0 1.25rem;
+}
+
+#skills dt {
+  font-weight: 700;
+  margin-top: 0.75rem;
+}
+
+#skills dt:first-child {
+  margin-top: 0;
+}
+
+#skills dd {
+  margin: 0.15rem 0 0;
+  color: var(--ink-muted);
+}
+
+#skills ul {
+  margin: 0.35rem 0 0;
+  padding-left: 1.2rem;
+  color: var(--ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+footer {
+  max-width: 72rem;
+  margin: var(--space) auto 0;
+  padding: var(--space) clamp(1.25rem, 3vw, 2rem);
+  font-size: 0.875rem;
+  color: var(--ink-muted);
+}
+
+footer p {
+  margin: 0 0 0.35rem;
+  max-width: var(--measure);
+}
+
+/* --------------------------------------------------------------------------
+   Respect a reduced-motion preference (WCAG 2.1 success criterion 2.3.3).
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Print: a resume gets printed. Drop the chrome, keep the content.
+   -------------------------------------------------------------------------- */
+@media print {
+  body {
+    padding: 0;
+    background-color: #ffffff;
+    font-size: 11pt;
+  }
+
+  nav,
+  .skip-link {
+    display: none;
+  }
+
+  main {
+    grid-template-columns: 1fr;
+    padding: 0;
+  }
+
+  #skills {
+    grid-column: 1;
+    grid-row: auto;
+    background-color: transparent;
+    padding: 0;
+  }
+
+  article {
+    break-inside: avoid;
+  }
+}
