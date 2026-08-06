@@ -63,7 +63,7 @@ it stacks underneath.
 
 | Platform | URL |
 |---|---|
-| GitHub Pages | https://jinfusion-edu.github.io/it102-semantic-html-resume/ |
+| GitHub Pages | https://edu.jinfusion.dev/it102-semantic-html-resume/ |
 | Netlify | _pending — see DEPLOYMENT.md_ |
 | Cloudflare Pages | _pending — see DEPLOYMENT.md_ |
 

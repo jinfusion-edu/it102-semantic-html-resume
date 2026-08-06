@@ -5,7 +5,7 @@ two need an account authorisation that only you can give.
 
 | Platform | Status | URL |
 |---|---|---|
-| GitHub Pages | **done** — enabled from this repo | `https://jinfusion-edu.github.io/it102-semantic-html-resume/` |
+| GitHub Pages | **done** — enabled from this repo | `https://edu.jinfusion.dev/it102-semantic-html-resume/` |
 | Netlify | **your task** — steps below | _fill in after step 5_ |
 | Cloudflare Pages | **your task** — steps below | _fill in after step 5_ |
 
@@ -93,8 +93,8 @@ actually work rather than merely existing.
 ## Verifying GitHub Pages yourself
 
 ```bash
-curl -sI https://jinfusion-edu.github.io/it102-semantic-html-resume/ | head -1
-curl -s  https://jinfusion-edu.github.io/it102-semantic-html-resume/robots.txt
+curl -sI https://edu.jinfusion.dev/it102-semantic-html-resume/ | head -1
+curl -s  https://edu.jinfusion.dev/it102-semantic-html-resume/robots.txt
 ```
 
 The first should report `HTTP/2 200`. Pages can take a couple of minutes to

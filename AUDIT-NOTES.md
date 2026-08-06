@@ -156,11 +156,23 @@ flagging it rather than hiding it.
 
 ### Three places I would look first if this turned out to be wrong
 
-1. **The absolute URLs in `<head>`, `robots.txt` and `sitemap.xml`.** They
-   hardcode `jinfusion-edu.github.io/it102-semantic-html-resume/` in four
-   places. If the OG card is blank or the sitemap 404s, a mismatch between the
-   real Pages URL and these strings is the most likely cause — especially the
-   trailing slash and the case of the repo name.
+1. **The absolute URLs in `<head>`, `robots.txt` and `sitemap.xml`.** If the OG
+   card is blank or the sitemap 404s, a mismatch between the real Pages URL and
+   these hardcoded strings is the most likely cause — especially the trailing
+   slash and the case of the repo name.
+
+   **This did in fact happen.** The URLs were originally written as
+   `https://jinfusion-edu.github.io/it102-semantic-html-resume/`. On enabling
+   Pages, GitHub reported the site's address as
+   `https://edu.jinfusion.dev/it102-semantic-html-resume/` — the
+   `jinfusion-edu` org already owns a verified custom domain (`edu.jinfusion.dev`,
+   set by the `CNAME` in `jinfusion-edu.github.io`), and **project** Pages sites
+   inherit it. Every absolute URL across 11 files was rewritten to the real host.
+
+   The `github.io` address still works: it returns `301` and redirects to the
+   custom domain, so an old link is not broken. But `og:url` and
+   `rel="canonical"` should name the final destination rather than a redirect,
+   which is why they were changed rather than left.
 2. **The `grid-row: 1 / span 4` on `#skills`.** It hardcodes the number of
    blocks in the content column. Adding or removing a `<section>` inside `<main>`
    will silently misalign the sidebar; nothing errors, it just looks wrong.

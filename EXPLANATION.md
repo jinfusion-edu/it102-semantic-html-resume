@@ -225,7 +225,7 @@ guesses — usually badly, showing a bare URL or a random image.
 
 ```html
 <meta property="og:image"
-      content="https://jinfusion-edu.github.io/it102-semantic-html-resume/og-preview.png" />
+      content="https://edu.jinfusion.dev/it102-semantic-html-resume/og-preview.png" />
 ```
 
 **The URL must be absolute.** A scraper is not browsing your site; it has no
@@ -244,7 +244,7 @@ like three copies of one document, and it has to decide which to rank —
 "duplicate content".
 
 ```html
-<link rel="canonical" href="https://jinfusion-edu.github.io/..." />
+<link rel="canonical" href="https://edu.jinfusion.dev/..." />
 ```
 
 This says: wherever you found this page, the real address is this one. All

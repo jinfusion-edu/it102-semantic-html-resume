@@ -11,4 +11,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://jinfusion-edu.github.io/it102-semantic-html-resume/sitemap.xml
+Sitemap: https://edu.jinfusion.dev/it102-semantic-html-resume/sitemap.xml
