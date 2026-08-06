@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Sitemap for the resume. One page, so this is short, but robots.txt points
+  at it and a dangling reference there would be a defect in its own right.
+  lastmod should be bumped whenever the resume content actually changes.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://jinfusion-edu.github.io/it102-semantic-html-resume/</loc>
+    <lastmod>2026-08-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+</urlset>

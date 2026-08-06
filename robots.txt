@@ -1,0 +1,14 @@
+# robots.txt — instructions for search engine crawlers.
+#
+# A crawler requests this file before reading the site. It is advisory:
+# well-behaved crawlers obey it, hostile ones ignore it, so it is a
+# discoverability tool and never a security control.
+#
+# This site is a public resume and we WANT it indexed, so every crawler is
+# allowed everything. "Allow: /" is stated explicitly rather than relying on
+# an empty Disallow, because the intent should be readable at a glance.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://jinfusion-edu.github.io/it102-semantic-html-resume/sitemap.xml
