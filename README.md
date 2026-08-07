@@ -64,8 +64,14 @@ it stacks underneath.
 | Platform | URL |
 |---|---|
 | GitHub Pages | https://edu.jinfusion.dev/it102-semantic-html-resume/ |
-| Netlify | _pending — see DEPLOYMENT.md_ |
+| Netlify | https://resumejinfusion.netlify.app/ |
 | Cloudflare Pages | _pending — see DEPLOYMENT.md_ |
+
+> The two live deployments serve the same commit but are **not byte-identical**.
+> `edu.jinfusion.dev` sits behind Cloudflare with Email Address Obfuscation
+> enabled, so the `mailto:` link is rewritten on the way out and restored by a
+> Cloudflare script in the browser. Netlify serves the raw address. With
+> JavaScript on, both render the same. Details in `AUDIT-NOTES.md`.
 
 ## AI collaboration — tools and prompts
 

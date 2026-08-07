@@ -6,8 +6,11 @@ two need an account authorisation that only you can give.
 | Platform | Status | URL |
 |---|---|---|
 | GitHub Pages | **done** — enabled from this repo | `https://edu.jinfusion.dev/it102-semantic-html-resume/` |
-| Netlify | **your task** — steps below | _fill in after step 5_ |
-| Cloudflare Pages | **your task** — steps below | _fill in after step 5_ |
+| Netlify | **done** | `https://resumejinfusion.netlify.app/` |
+| Cloudflare Pages | **outstanding** — steps below | _fill in after step 5_ |
+
+Two of three are live. Both were verified serving `200` for the page,
+`style.css`, `robots.txt` and `og-preview.png`.
 
 Nothing about the code changes between platforms. All three serve this repo's
 `main` branch from the repository root, which is exactly the point the

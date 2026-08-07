@@ -107,6 +107,55 @@ flagging it rather than hiding it.
   Email and city/state are published. This was an explicit decision by the
   repository owner, not an oversight, and the footer states it on the page.
 
+### Finding: the deployments are NOT byte-identical
+
+The assignment's video requirement asks to show the live sites are "functional
+and visually identical". Two are live (GitHub Pages, Netlify) and they serve the
+same commit, but the delivered HTML differs:
+
+```
+netlify  7216 bytes
+pages    7471 bytes
+```
+
+The diff is entirely the contact link:
+
+```html
+<!-- Netlify serves the file as authored -->
+<a href="mailto:brunerjohnpeter@gmail.com">brunerjohnpeter@gmail.com</a>
+
+<!-- edu.jinfusion.dev, rewritten in transit by Cloudflare -->
+<a href="/cdn-cgi/l/email-protection#5735...">
+  <span class="__cf_email__" data-cfemail="690b...">[email&#160;protected]</span></a>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/.../email-decode.min.js"></script>
+```
+
+`edu.jinfusion.dev` is proxied through Cloudflare with **Email Address
+Obfuscation** (Scrape Shield) enabled. Cloudflare rewrites any `mailto:` it
+finds and injects a script that restores it client-side.
+
+**Consequences, stated plainly:**
+
+- With JavaScript enabled — nearly all visitors, and certainly the grader — both
+  sites render the identical address. The video claim holds.
+- **With JavaScript disabled, the Cloudflare copy shows the literal text
+  `[email protected]`** where the email should be. On a resume that is a bad
+  failure mode, and it is the one case where the two deployments are visibly
+  different.
+- The repo content is correct. This is a CDN transform, not a defect in the
+  committed file, and it cannot be fixed by editing the HTML.
+
+**Why I did not "fix" it.** The natural fix is the technique already used on
+`jinfusion.dev` (`src/components/Email.astro`): keep the address out of the
+markup and assemble it in JavaScript. That would require adding a script to this
+page — and **R1 of this assignment permits only a single HTML file and a single
+CSS file.** Fixing the CDN symptom would break a stated requirement.
+
+The other route is a Cloudflare dashboard setting (Scrape Shield → Email Address
+Obfuscation → off) for the zone. That is the owner's call, not mine, and there
+is a reasonable argument for leaving it **on**: it is actively protecting a real
+email address on a page that `robots.txt` invites search engines to index.
+
 ### What I executed vs. what I only reasoned about
 
 **Executed:**
