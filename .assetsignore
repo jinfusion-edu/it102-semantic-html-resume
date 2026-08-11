@@ -1,0 +1,23 @@
+# Files in this directory that must NOT be uploaded as public static assets.
+# Same syntax as .gitignore. Read by `wrangler deploy`.
+#
+# Why this file exists: wrangler.jsonc sets "assets": { "directory": "." },
+# which uploads *everything* in the repository root - including files that
+# .gitignore deliberately keeps out of git. .gitignore governs git. It does
+# not govern what wrangler uploads. Only this file does.
+
+# Wrangler's local cache. Holds the Cloudflare account id and the account
+# name, and the account name is an email address. Gitignored, and it was
+# still being served at
+#   /.wrangler/cache/wrangler-account.json
+.wrangler
+
+# The git directory. The repo is public, so nothing here is secret today,
+# but serving .git/config from a web root is a habit that leaks tokens the
+# moment a remote URL ever carries one.
+.git
+
+# Deployment configuration. No secrets, but it is infrastructure, not
+# website content, and there is no reason to serve it.
+wrangler.jsonc
+.assetsignore
