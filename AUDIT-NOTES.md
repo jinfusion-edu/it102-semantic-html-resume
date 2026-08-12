@@ -110,18 +110,26 @@ flagging it rather than hiding it.
 ### Finding: the deployments are NOT byte-identical
 
 The assignment's video requirement asks to show the live sites are "functional
-and visually identical". Two are live (GitHub Pages, Netlify) and they serve the
-same commit, but the delivered HTML differs:
+and visually identical". All three are now live and serve the same commit, but
+the delivered HTML differs — and **the outlier is GitHub Pages, not the others**:
 
 ```
-netlify  7216 bytes
-pages    7471 bytes
+repo file   7216 bytes   fd7d1b40…
+netlify     7216 bytes   fd7d1b40…   identical to the repo
+cloudflare  7216 bytes   fd7d1b40…   identical to the repo
+pages       7471 bytes   7766b170…   <-- differs
 ```
+
+That 2-against-1 split is itself the diagnosis. An earlier version of this note
+framed Netlify as the exception, which had the cause backwards: the rewrite is a
+**zone-level setting on `jinfusion.dev`**, not anything about Cloudflare as a host.
+The `workers.dev` deployment is also Cloudflare and is completely unaffected,
+because it is not inside that zone.
 
 The diff is entirely the contact link:
 
 ```html
-<!-- Netlify serves the file as authored -->
+<!-- Netlify and Cloudflare both serve the file as authored -->
 <a href="mailto:brunerjohnpeter@gmail.com">brunerjohnpeter@gmail.com</a>
 
 <!-- edu.jinfusion.dev, rewritten in transit by Cloudflare -->
@@ -136,8 +144,8 @@ finds and injects a script that restores it client-side.
 
 **Consequences, stated plainly:**
 
-- With JavaScript enabled — nearly all visitors, and certainly the grader — both
-  sites render the identical address. The video claim holds.
+- With JavaScript enabled — nearly all visitors, and certainly the grader — all
+  three sites render the identical address. The video claim holds.
 - **With JavaScript disabled, the Cloudflare copy shows the literal text
   `[email protected]`** where the email should be. On a resume that is a bad
   failure mode, and it is the one case where the two deployments are visibly
@@ -155,6 +163,39 @@ The other route is a Cloudflare dashboard setting (Scrape Shield → Email Addre
 Obfuscation → off) for the zone. That is the owner's call, not mine, and there
 is a reasonable argument for leaving it **on**: it is actively protecting a real
 email address on a page that `robots.txt` invites search engines to index.
+
+### Finding: the Cloudflare deploy published files that .gitignore excluded
+
+`wrangler.jsonc` sets `"assets": { "directory": "." }`, which uploads the entire
+repository root. Verified publicly readable on the live Worker:
+
+```
+/.git/config                             200
+/.wrangler/cache/wrangler-account.json   200
+```
+
+`.wrangler/` is listed in `.gitignore` — and was published anyway. **`.gitignore`
+governs git; it does not govern what Wrangler uploads.** Only a `.assetsignore`
+does, and there wasn't one.
+
+**Severity: low, but not zero — checked rather than assumed.**
+
+- **No credentials.** The served `.git/config` carries no token in the remote URL
+  (grepped for `ghp_`, `gho_`, `github_pat_` and `user:pass@` forms — zero hits).
+- The account file holds a Cloudflare account **id** and account **name**. The id
+  is an identifier, not a secret; it appears in every dashboard URL.
+- **The real issue is the account name: it is an email address**, and a different
+  one from the address deliberately published on the resume. So a second personal
+  email was disclosed on a page whose own `robots.txt` invites indexing — directly
+  against the privacy position taken elsewhere in this repo.
+- Serving `.git/` from a web root leaks nothing here (the repo is public) but is a
+  habit that leaks history and tokens the moment either of those changes.
+
+**Fixed in commit `585937c`** by adding a `.assetsignore` excluding `.wrangler`,
+`.git`, and the deploy config. **The fix is not live yet** — `.assetsignore` is
+read by `wrangler deploy`, and this deployment is not git-connected, so a `git
+push` does not apply it. It needs `npx wrangler deploy`, which is the repository
+owner's action. Until then the URLs above still return `200`.
 
 ### What I executed vs. what I only reasoned about
 

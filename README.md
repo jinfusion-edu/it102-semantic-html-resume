@@ -65,13 +65,17 @@ it stacks underneath.
 |---|---|
 | GitHub Pages | https://edu.jinfusion.dev/it102-semantic-html-resume/ |
 | Netlify | https://resumejinfusion.netlify.app/ |
-| Cloudflare Pages | _pending — see DEPLOYMENT.md_ |
+| Cloudflare (Workers static assets) | https://it102-semantic-html-resume.jeskeyejin.workers.dev/ |
 
-> The two live deployments serve the same commit but are **not byte-identical**.
-> `edu.jinfusion.dev` sits behind Cloudflare with Email Address Obfuscation
-> enabled, so the `mailto:` link is rewritten on the way out and restored by a
-> Cloudflare script in the browser. Netlify serves the raw address. With
-> JavaScript on, both render the same. Details in `AUDIT-NOTES.md`.
+All three are live. Netlify and Cloudflare are **byte-identical** to the file in
+this repo — 7216 bytes, matching SHA-256. GitHub Pages serves 7471 bytes.
+
+> **The odd one out is GitHub Pages, not the others.** `edu.jinfusion.dev` sits
+> behind Cloudflare with Email Address Obfuscation (Scrape Shield) enabled for that
+> zone, so the `mailto:` is rewritten in transit and restored by a Cloudflare script
+> in the browser. That is a setting on the `jinfusion.dev` zone, not a property of
+> Cloudflare hosting — which is why the `workers.dev` copy is unaffected. With
+> JavaScript on, all three render the same address. Details in `AUDIT-NOTES.md`.
 
 ## AI collaboration — tools and prompts
 
